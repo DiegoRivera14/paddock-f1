@@ -23,4 +23,18 @@ Registro de lo que se hace cada día, los problemas que aparecen y cómo se resu
 
 ## Domingo 25 de octubre de 2026
 
-(pendiente)
+N/A
+
+## Lunes 26 de octubre de 2026
+
+**Hecho**
+- Revisé el archivo application.properties y entendí qué hace cada línea: la base de datos H2 se guarda en un archivo para que los datos no se pierdan al apagar la aplicación, y Hibernate crea las tablas a partir de las entidades.
+- Creé las entidades Circuito y Escuderia. Cada una representa una tabla de la base de datos, y cada objeto, una fila.
+- Hice un commit por cada entidad y los subí a la rama feature/modelo-datos.
+
+**Lo que aprendí**
+- Qué hacen las anotaciones @Entity y @Id, y por qué el id de Circuito y Escuderia es un texto que viene de la API.
+- Por qué los campos son privados y se leen con getters.
+
+**Problemas y soluciones**
+- Por el momento aparente nada, fase muy inicial del proyecto.
