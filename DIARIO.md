@@ -38,3 +38,23 @@ N/A
 
 **Problemas y soluciones**
 - Por el momento aparente nada, fase muy inicial del proyecto.
+
+## Martes 27 de octubre de 2026
+
+**Hecho**
+- Creé las entidades Piloto, Carrera y Resultado, cada una con su commit.
+
+**Aprendido**
+- @ManyToOne: muchos pilotos pertenecen a una escudería, y en la tabla se guarda como clave foránea.
+- Diferencia entre un identificador de texto (Circuito, Escuderia, Piloto) y uno generado por la base de datos (Carrera, Resultado).
+- Uso de Integer en vez de int cuando el valor puede ser null, como la posición final de un piloto que no termina.
+- Resultado une Carrera, Piloto y Escuderia, y de ahí saldrán las estadísticas.
+
+**Problemas y soluciones**
+- En la consola H2 no aparecen las tablas.
+   - Causa: la consola trae por defecto la URL jdbc:h2:mem:testdb, que es una base en memoria distinta de la nuestra.
+   - Solución: escribir la URL de application.properties (jdbc:h2:file:./data/paddock).
+
+- Cambié una entidad y la tabla no se actualiza bien.
+   - Causa: ddl-auto=update añade columnas, pero no borra ni modifica las existentes.
+   - Solución: en desarrollo, borrar la carpeta data/ para regenerar la base de datos.
