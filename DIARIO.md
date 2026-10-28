@@ -58,3 +58,29 @@ N/A
 - Cambié una entidad y la tabla no se actualiza bien.
    - Causa: ddl-auto=update añade columnas, pero no borra ni modifica las existentes.
    - Solución: en desarrollo, borrar la carpeta data/ para regenerar la base de datos.
+
+## Miércoles 28 de octubre de 2026
+
+**Hecho**
+- Revisé los cinco repositorios Spring Data (Circuito, Escuderia, Piloto, Carrera y Resultado) y los subí en dos commits.
+- Creé la clase SecurityConfig, en un paquete nuevo llamado config, para que las páginas sean públicas y para poder usar la consola H2.
+- Comprobé en la consola H2 que existen las cinco tablas y que PILOTO tiene la columna ESCUDERIA_ID.
+- Abrí el Pull Request "Modelo de datos" y lo fusioné en main.
+
+**Aprendido**
+- Qué es un repositorio: una interfaz que, al extender JpaRepository, ya trae guardar, buscar y borrar sin escribir SQL.
+- Que Spring construye consultas a partir del nombre del método, por ejemplo findByTemporadaOrderByRonda.
+- Por qué findByTemporadaAndRonda devuelve un Optional: la carrera puede no existir.
+- Que Spring Security bloquea todo por defecto, y que la consola H2 necesita una configuración propia para poder mostrarse.
+
+**Problemas y soluciones**
+- No entendía qué debía poner en el campo JDBC URL de la consola H2.
+   - Causa: no sabía que había que copiar el valor de spring.datasource.url del archivo application.properties.
+   - Solución: copiar solo lo que va después del signo igual y pegarlo en lugar de la URL que trae por defecto.
+   - Aprendido: la consola H2 se conecta a la base de datos que indique esa URL, y si no coincide con la de la aplicación no se ven las tablas.
+
+**Dudas pendientes**
+- Cómo se va a convertir el JSON de la API en objetos Piloto, Carrera y Resultado.
+- Qué pasará con un piloto que cambie de equipo durante la temporada, ya que Piloto guarda una sola escudería.
+- Cuándo hace falta realmente la carga LAZY y qué error da si se usa mal.
+- Por qué la clave de Carrera se genera sola y la de Piloto no.
