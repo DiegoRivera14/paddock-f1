@@ -84,3 +84,36 @@ N/A
 - Qué pasará con un piloto que cambie de equipo durante la temporada, ya que Piloto guarda una sola escudería.
 - Cuándo hace falta realmente la carga LAZY y qué error da si se usa mal.
 - Por qué la clave de Carrera se genera sola y la de Piloto no.
+
+## Jueves 29 – Domingo 1 de noviembre de 2026
+
+**Hecho**
+- Creé la rama feature/importador-f1 y añadí la configuración de la API Jolpica-F1 y de la temporada (2025) en application.properties.
+- Incorporé las clases del importador, cada una en su commit: JolpicaDto, JolpicaClient, ImportadorService (con ColoresEscuderia) e ImportadorRunner.
+- Arranqué la aplicación y comprobé en la consola H2 que se habían importado los datos.
+
+**Aprendido**
+- La aplicación guarda una copia de los datos de la API en su propia base de datos, en lugar de llamar a la API en cada visita. Así las páginas cargan rápido, no dependemos de que la API esté disponible y no superamos sus límites.
+- La API devuelve JSON, y los record de JolpicaDto son las estructuras a las que Jackson convierte ese JSON. Sus nombres están en inglés porque tienen que coincidir con los de la API.
+- JolpicaClient usa RestClient para hacer las peticiones y respeta los límites de la API (4 por segundo y 500 por hora) con una pausa entre peticiones. También envía un User-Agent propio, que la API exige.
+- Los números llegan como texto en el JSON ("25", "1"), y el importador los convierte. Si un dato no existe (como el número de un piloto) se guarda como null.
+- La API no dice en qué equipo está cada piloto, solo con qué equipo corrió cada carrera, así que los pilotos se crean a partir de los resultados y se les asigna el último equipo.
+- ImportadorService va en una sola transacción (@Transactional): si algo falla a mitad, no se guarda nada y la base de datos queda como estaba.
+- ImportadorRunner se ejecuta al arrancar y solo importa si la temporada aún no está en la base de datos, para no duplicar datos.
+
+**Problemas y soluciones**
+1. Error 429 "Too Many Requests".
+   Causa: superar el límite de la API (4 peticiones por segundo o 500 por hora).
+   Solución: el cliente espera 0,3 segundos entre peticiones y reintenta hasta tres veces si le dicen que espere.
+
+2. La API rechaza las peticiones.
+   Causa: la API pide un User-Agent propio que identifique la aplicación.
+   Solución: JolpicaClient lo envía en todas las peticiones.
+
+3. La aplicación arranca pero sin datos.
+   Causa: la API no responde o no hay conexión a internet.
+   Solución: el runner captura el error y lo escribe en el log. Se reinicia cuando la API vuelva.
+
+4. "Database may be already in use".
+   Causa: dos copias de la aplicación usando el mismo archivo de base de datos.
+   Solución: cerrar la que sobra antes de arrancar de nuevo.
