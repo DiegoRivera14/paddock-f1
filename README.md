@@ -41,7 +41,7 @@ Los datos deportivos proceden de la API pública [Jolpica-F1](https://api.jolpi.
 
 ## Requisitos
 
-- JDK 17 o superior (desarrollado con JDK 21)
+- JDK 17 o superior (desarrollado con JDK 25)
 - Git
 - No hace falta instalar Maven: el proyecto incluye el wrapper `mvnw`.
 
