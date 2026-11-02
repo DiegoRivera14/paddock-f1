@@ -2,7 +2,7 @@
 
 Aplicación web de consulta sobre la Fórmula 1: próxima carrera, pilotos, escuderías, clasificaciones y calendario de circuitos de la temporada 2025.
 
-Proyecto de Fin de Ciclo (PFC) del Ciclo de Grado Superior en Desarrollo de Aplicaciones Web, CPR A Coruña Afundación, curso 2023/26.
+Proyecto de Fin de Ciclo (PFC) del Ciclo de Grado Superior en Desarrollo de Aplicaciones Web, CPR A Coruña Afundación, curso 2023 - 2026.
 
 > Proyecto no oficial. No está afiliado a la Fórmula 1 ni a ninguna escudería. No usa logotipos ni fotografías con derechos de autor.
 
@@ -17,8 +17,8 @@ En desarrollo. Entrega parcial: 15 de noviembre. Entrega final: 6 de diciembre.
 | Módulo | Rama | Estado |
 |---|---|---|
 | Proyecto base Spring Boot | `main` | Hecho |
-| Modelo de datos | `feature/modelo-datos` | En curso |
-| Importador de datos de F1 | `feature/importador-f1` | Pendiente |
+| Modelo de datos | `feature/modelo-datos` | Hecho |
+| Importador de datos de F1 | `feature/importador-f1` | Hecho |
 | Feed principal | `feature/feed-principal` | Pendiente |
 | Pilotos | `feature/pilotos` | Pendiente |
 | Escuderías | `feature/escuderias` | Pendiente |
@@ -41,7 +41,7 @@ Los datos deportivos proceden de la API pública [Jolpica-F1](https://api.jolpi.
 
 ## Requisitos
 
-- JDK 17 o superior (desarrollado con JDK 25)
+- JDK 25 (el proyecto compila con `java.version` 25, definido en `pom.xml`)
 - Git
 - No hace falta instalar Maven: el proyecto incluye el wrapper `mvnw`.
 
