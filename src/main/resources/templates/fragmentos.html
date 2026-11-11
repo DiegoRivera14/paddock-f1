@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Cabecera común a todas las páginas. "activa" indica qué enlace se marca. -->
+<header class="cabecera" th:fragment="cabecera(activa)">
+    <div class="cabecera__interior">
+        <a class="marca" th:href="@{/}" href="/">Paddock</a>
+        <nav class="menu" aria-label="Principal">
+            <a class="menu__enlace" th:classappend="${activa == 'inicio'} ? 'menu__enlace--activo'"
+               th:href="@{/}" href="/">Inicio</a>
+            <!-- Estas secciones se activarán cuando existan sus páginas -->
+            <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Pilotos</span>
+            <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Escuderías</span>
+            <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Clasificación</span>
+            <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Circuitos</span>
+        </nav>
+    </div>
+</header>
+
+<!-- Pie común a todas las páginas -->
+<footer class="pie" th:fragment="pie">
+    <div class="pie__interior">
+        <p>Paddock es un proyecto educativo no oficial. No está afiliado a la Fórmula 1 ni a ninguna escudería.</p>
+        <p>Datos deportivos de la API Jolpica-F1.</p>
+    </div>
+</footer>
+
+</body>
+</html>
