@@ -19,7 +19,7 @@ En desarrollo. Entrega parcial: 15 de noviembre. Entrega final: 6 de diciembre.
 | Proyecto base Spring Boot | `main` | Hecho |
 | Modelo de datos | `feature/modelo-datos` | Hecho |
 | Importador de datos de F1 | `feature/importador-f1` | Hecho |
-| Feed principal | `feature/feed-principal` | Pendiente |
+| Feed principal | `feature/feed-principal` | En curso (portada con horario y noticias; faltan podio y top 5) |
 | Pilotos | `feature/pilotos` | Pendiente |
 | Escuderías | `feature/escuderias` | Pendiente |
 | Clasificaciones | `feature/clasificaciones` | Pendiente |
