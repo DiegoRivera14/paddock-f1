@@ -117,3 +117,23 @@ N/A
 4. "Database may be already in use".
    Causa: dos copias de la aplicación usando el mismo archivo de base de datos.
    Solución: cerrar la que sobra antes de arrancar de nuevo.
+
+## Lunes 2 - Miércoles 11 de noviembre de 2026
+
+**Hecho**
+
+- Actualización de main y creación de la rama feature/feed-principal para la portada.
+- Incorporación al proyecto de los archivos de la portada: entidad Noticia y su repositorio, carga de noticias de ejemplo, servicio del horario del fin de semana, controlador de la portada, plantillas Thymeleaf (index y fragmentos) y hoja de estilos.
+- Nuevas propiedades en application.properties para el modo demostración (paddock.demo.ronda y paddock.demo.hoy).
+- Comprobación con git status de que los 9 archivos (8 nuevos y 1 modificado) aparecen en la rama correcta.
+
+**Decisiones**
+
+- La portada muestra una carrera fija (ronda 1 de 2025, Gran Premio de Australia) con una fecha "de hoy" simulada, porque la temporada importada está cerrada y no hay un "próximo fin de semana" real.
+- El horario de las sesiones es de ejemplo y las noticias son guías escritas para el proyecto, para no copiar contenido con derechos de autor ni inventar hechos.
+- Sin JavaScript: la cuenta atrás se calcula en el servidor.
+
+**Problemas y soluciones**
+
+- La página sale sin estilos si el navegador no carga estilos.css o las fuentes de Google (sin internet).
+- Error de Thymeleaf al leer los datos del servicio si hay un fallo de sintaxis en la plantilla.

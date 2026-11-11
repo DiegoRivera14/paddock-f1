@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Paddock · Fórmula 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" href="../static/css/estilos.css">
+</head>
+<body>
+
+<div th:replace="~{fragmentos :: cabecera('inicio')}"></div>
+
+<main class="contenedor">
+
+    <!-- Próxima carrera -->
+    <section class="hero" th:if="${fin != null}">
+        <div class="hero__texto">
+            <p class="hero__ronda">Ronda <span th:text="${fin.ronda()}">1</span> de <span th:text="${fin.totalRondas()}">24</span></p>
+            <h1 class="hero__titulo" th:text="${fin.nombreCarrera()}">Australian Grand Prix</h1>
+            <p class="hero__circuito" th:text="${fin.circuito()}">Albert Park Grand Prix Circuit</p>
+            <p class="hero__lugar" th:text="|${fin.localidad()}, ${fin.pais()}|">Melbourne, Australia</p>
+            <p class="hero__fecha" th:text="${fin.fecha()}">Domingo 16 de marzo de 2025</p>
+        </div>
+        <div class="placa">
+            <span class="placa__numero" th:text="${fin.diasRestantes()}">5</span>
+            <span class="placa__texto">días para la carrera</span>
+        </div>
+    </section>
+
+    <!-- Aviso si no hay datos todavía -->
+    <section class="vacio" th:if="${fin == null}">
+        <h1 class="vacio__titulo">Todavía no hay datos de la temporada</h1>
+        <p>Arranca la aplicación con conexión a internet y espera a que termine la importación. Después, recarga esta página.</p>
+    </section>
+
+    <!-- Horario del fin de semana -->
+    <section class="horario" th:if="${fin != null}" aria-labelledby="titulo-horario">
+        <h2 class="seccion__titulo" id="titulo-horario">Horario del fin de semana</h2>
+        <p class="seccion__nota">Hora peninsular española. Horarios de ejemplo.</p>
+        <div class="horario__jornadas">
+            <article class="jornada" th:each="j : ${fin.jornadas()}">
+                <h3 class="jornada__dia">
+                    <span th:text="${j.dia()}">Viernes</span>
+                    <span class="jornada__fecha" th:text="${j.fecha()}">14 de marzo</span>
+                </h3>
+                <ul class="jornada__sesiones">
+                    <li class="sesion" th:each="s : ${j.sesiones()}"
+                        th:classappend="${s.carrera()} ? 'sesion--carrera'">
+                        <span class="sesion__nombre" th:text="${s.nombre()}">Libres 1</span>
+                        <span class="sesion__hora" th:text="${s.hora()}">02:30</span>
+                    </li>
+                    <!-- Filas de ejemplo para ver la maqueta sin ejecutar la aplicación -->
+                    <li class="sesion" th:remove="all">
+                        <span class="sesion__nombre">Libres 2</span>
+                        <span class="sesion__hora">06:00</span>
+                    </li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <!-- Noticias -->
+    <section class="noticias" aria-labelledby="titulo-noticias">
+        <h2 class="seccion__titulo" id="titulo-noticias">Noticias</h2>
+        <p class="vacio vacio--noticias" th:if="${noticias.isEmpty()}">Todavía no hay noticias publicadas.</p>
+        <div class="noticias__lista" th:unless="${noticias.isEmpty()}">
+            <article class="noticia" th:each="n, estado : ${noticias}"
+                     th:classappend="${estado.first} ? 'noticia--principal'">
+                <p class="noticia__meta">
+                    <span class="noticia__categoria" th:text="${n.categoria}">Guía</span>
+                    <span class="noticia__fecha" th:text="${n.fechaTexto}">1 nov 2026</span>
+                </p>
+                <h3 class="noticia__titulo" th:text="${n.titulo}">Así es un fin de semana de Gran Premio</h3>
+                <p class="noticia__resumen" th:text="${n.resumen}">Resumen de la noticia.</p>
+            </article>
+        </div>
+    </section>
+
+</main>
+
+<div th:replace="~{fragmentos :: pie}"></div>
+
+</body>
+</html>
