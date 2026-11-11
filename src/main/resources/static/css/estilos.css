@@ -1,0 +1,471 @@
+/* ==========================================================================
+   Paddock · hoja de estilos
+   Idea: un panel de boxes. Fondo de asfalto claro, tinta oscura y dos colores
+   de señalización: el amarillo de la placa de boxes y el rojo de la carrera.
+   ========================================================================== */
+
+:root {
+    --asfalto: #E4E7EA;
+    --panel: #F7F8F9;
+    --tinta: #12161C;
+    --pizarra: #4A5560;
+    --linea: #C3C9CF;
+    --amarillo: #FFD000;
+    --rojo: #D91F32;
+    --blanco: #FFFFFF;
+
+    --fuente-titulo: "Big Shoulders Display", "Bahnschrift", "Arial Narrow", sans-serif;
+    --fuente-texto: "Public Sans", system-ui, "Segoe UI", sans-serif;
+
+    --ancho: 72rem;
+    --margen: clamp(1rem, 4vw, 2rem);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--asfalto);
+    color: var(--tinta);
+    font-family: var(--fuente-texto);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+h1, h2, h3, p, ul {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--rojo);
+    outline-offset: 3px;
+}
+
+.contenedor {
+    flex: 1;
+    width: 100%;
+    max-width: var(--ancho);
+    margin: 0 auto;
+    padding: 0 var(--margen);
+}
+
+/* --------------------------------------------------------------------------
+   Cabecera: franja de piano (bordillo) rojo y blanco como único adorno
+   -------------------------------------------------------------------------- */
+
+.cabecera {
+    position: relative;
+    background: var(--tinta);
+    color: var(--blanco);
+}
+
+.cabecera::after {
+    content: "";
+    display: block;
+    height: 0.5rem;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--rojo) 0 1.5rem,
+        var(--blanco) 1.5rem 3rem
+    );
+}
+
+.cabecera__interior {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    max-width: var(--ancho);
+    margin: 0 auto;
+    padding: 0.75rem var(--margen);
+}
+
+.cabecera :focus-visible {
+    outline-color: var(--amarillo);
+}
+
+.marca {
+    font-family: var(--fuente-titulo);
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+}
+
+.menu__enlace {
+    padding: 0.25rem 0;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a.menu__enlace:hover {
+    border-bottom-color: var(--blanco);
+}
+
+.menu__enlace--activo {
+    border-bottom-color: var(--amarillo);
+}
+
+.menu__enlace--pronto {
+    color: #9AA4AE;
+    cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   Próxima carrera
+   -------------------------------------------------------------------------- */
+
+.hero {
+    display: grid;
+    gap: 2rem;
+    padding: clamp(2rem, 6vw, 4rem) 0;
+    align-items: center;
+}
+
+.hero__ronda {
+    color: var(--pizarra);
+    font-weight: 600;
+}
+
+.hero__titulo {
+    margin: 0.25rem 0 0.75rem;
+    font-family: var(--fuente-titulo);
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    font-weight: 900;
+    line-height: 0.92;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.hero__circuito {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.hero__lugar,
+.hero__fecha {
+    color: var(--pizarra);
+}
+
+/* La placa de boxes: el elemento que se recuerda de la portada */
+.placa {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: start;
+    min-width: 12rem;
+    padding: 1.75rem 2rem 1.25rem;
+    background: var(--amarillo);
+    border: 4px solid var(--tinta);
+    border-radius: 0.375rem;
+    color: var(--tinta);
+    text-align: center;
+}
+
+.placa::before,
+.placa::after {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--tinta);
+}
+
+.placa::before {
+    left: 0.5rem;
+}
+
+.placa::after {
+    right: 0.5rem;
+}
+
+.placa__numero {
+    font-family: var(--fuente-titulo);
+    font-size: clamp(5.5rem, 16vw, 9rem);
+    font-weight: 900;
+    line-height: 0.85;
+    font-variant-numeric: tabular-nums;
+}
+
+.placa__texto {
+    margin-top: 0.5rem;
+    font-weight: 700;
+}
+
+@media (min-width: 48rem) {
+    .hero {
+        grid-template-columns: 1fr auto;
+        gap: 3rem;
+    }
+
+    .placa {
+        justify-self: end;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Títulos de sección
+   -------------------------------------------------------------------------- */
+
+.seccion__titulo {
+    font-family: var(--fuente-titulo);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1;
+}
+
+.seccion__nota {
+    margin-top: 0.25rem;
+    color: var(--pizarra);
+    font-size: 0.9rem;
+}
+
+/* --------------------------------------------------------------------------
+   Horario: tres columnas, una por día, como un fin de semana real
+   -------------------------------------------------------------------------- */
+
+.horario {
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.horario__jornadas {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.jornada {
+    background: var(--panel);
+    border-top: 4px solid var(--tinta);
+}
+
+.jornada__dia {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding: 0.75rem 1rem;
+    font-family: var(--fuente-titulo);
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.jornada__fecha {
+    color: var(--pizarra);
+    font-family: var(--fuente-texto);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.sesion {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--linea);
+}
+
+.sesion__nombre {
+    font-weight: 600;
+}
+
+.sesion__hora {
+    font-family: var(--fuente-titulo);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.sesion--carrera {
+    background: var(--rojo);
+    border-top-color: var(--rojo);
+    color: var(--blanco);
+}
+
+.sesion--carrera .sesion__nombre {
+    font-weight: 700;
+}
+
+@media (min-width: 40rem) {
+    .horario__jornadas {
+        grid-template-columns: repeat(3, 1fr);
+        align-items: start;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Noticias: una principal grande y el resto en lista
+   -------------------------------------------------------------------------- */
+
+.noticias {
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+.noticias__lista {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.noticia__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.noticia__categoria {
+    padding: 0.125rem 0.5rem;
+    background: var(--tinta);
+    color: var(--blanco);
+    font-weight: 700;
+}
+
+.noticia__fecha {
+    color: var(--pizarra);
+}
+
+.noticia__titulo {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.noticia__resumen {
+    max-width: 60ch;
+    color: var(--pizarra);
+}
+
+.noticia:not(.noticia--principal) {
+    padding-top: 1rem;
+    border-top: 1px solid var(--linea);
+}
+
+.noticia--principal {
+    padding: clamp(1.25rem, 4vw, 2rem);
+    background: var(--tinta);
+    color: var(--blanco);
+}
+
+.noticia--principal .noticia__categoria {
+    background: var(--amarillo);
+    color: var(--tinta);
+}
+
+.noticia--principal .noticia__fecha,
+.noticia--principal .noticia__resumen {
+    color: #C9D0D6;
+}
+
+.noticia--principal .noticia__titulo {
+    margin: 0.75rem 0 0.5rem;
+    font-family: var(--fuente-titulo);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 0.98;
+}
+
+@media (min-width: 56rem) {
+    /* La principal ocupa todo el ancho; las demás, en dos columnas debajo */
+    .noticias__lista {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 3rem;
+        row-gap: 2rem;
+        align-items: start;
+    }
+
+    .noticia--principal {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        column-gap: 3rem;
+        align-items: end;
+    }
+
+    .noticia--principal .noticia__meta {
+        grid-column: 1 / -1;
+    }
+
+    .noticia--principal .noticia__resumen {
+        font-size: 1.05rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Aviso cuando faltan datos
+   -------------------------------------------------------------------------- */
+
+.vacio {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--panel);
+    border-left: 6px solid var(--amarillo);
+    max-width: 40rem;
+}
+
+.vacio__titulo {
+    margin-bottom: 0.5rem;
+    font-family: var(--fuente-titulo);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.05;
+}
+
+.vacio--noticias {
+    margin-top: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Pie
+   -------------------------------------------------------------------------- */
+
+.pie {
+    background: var(--tinta);
+    color: #C9D0D6;
+    font-size: 0.875rem;
+}
+
+.pie__interior {
+    max-width: var(--ancho);
+    margin: 0 auto;
+    padding: 1.5rem var(--margen);
+}
+
+.pie p + p {
+    margin-top: 0.25rem;
+}
