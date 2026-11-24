@@ -13,9 +13,9 @@ Registro de lo que se hace cada día, los problemas que aparecen y cómo se resu
 - Elección de la temporada 2025 como fuente de datos (temporada cerrada, datos estables).
 
 **Problemas y soluciones**
-- `java -version` no funcionaba tras instalar el JDK. Causa: el PATH no se había actualizado. Solución: reiniciar VS Code y comprobar las opciones "Add to PATH" y "Set JAVA_HOME" del instalador.
-- El zip de Spring Initializr se descomprimió dentro de una carpeta `paddock` anidada, de modo que Git se inició en la carpeta equivocada. Solución: borrar el `.git` exterior y repetir `git init` dentro de la carpeta que contiene `pom.xml`.
-- `git push` falló con "Repository not found" porque el repositorio no existía todavía en GitHub. Solución: crear `paddock-f1` en GitHub y repetir el push.
+1. `java -version` no funcionaba tras instalar el JDK. Causa: el PATH no se había actualizado. Solución: reiniciar VS Code y comprobar las opciones "Add to PATH" y "Set JAVA_HOME" del instalador.
+2. El zip de Spring Initializr se descomprimió dentro de una carpeta `paddock` anidada, de modo que Git se inició en la carpeta equivocada. Solución: borrar el `.git` exterior y repetir `git init` dentro de la carpeta que contiene `pom.xml`.
+3. `git push` falló con "Repository not found" porque el repositorio no existía todavía en GitHub. Solución: crear `paddock-f1` en GitHub y repetir el push.
 
 **Aprendido**
 - Diferencia entre Git (herramienta local) y GitHub (servicio web).
@@ -51,11 +51,11 @@ N/A
 - Resultado une Carrera, Piloto y Escuderia, y de ahí saldrán las estadísticas.
 
 **Problemas y soluciones**
-- En la consola H2 no aparecen las tablas.
+1. En la consola H2 no aparecen las tablas.
    - Causa: la consola trae por defecto la URL jdbc:h2:mem:testdb, que es una base en memoria distinta de la nuestra.
    - Solución: escribir la URL de application.properties (jdbc:h2:file:./data/paddock).
 
-- Cambié una entidad y la tabla no se actualiza bien.
+2. Cambié una entidad y la tabla no se actualiza bien.
    - Causa: ddl-auto=update añade columnas, pero no borra ni modifica las existentes.
    - Solución: en desarrollo, borrar la carpeta data/ para regenerar la base de datos.
 
@@ -135,5 +135,43 @@ N/A
 
 **Problemas y soluciones**
 
-- La página sale sin estilos si el navegador no carga estilos.css o las fuentes de Google (sin internet).
-- Error de Thymeleaf al leer los datos del servicio si hay un fallo de sintaxis en la plantilla.
+1. La página sale sin estilos si el navegador no carga estilos.css o las fuentes de Google (sin internet).
+
+2. Error de Thymeleaf al leer los datos del servicio si hay un fallo de sintaxis en la plantilla.
+
+## Lunes 16 - Martes 24 de noviembre de 2026
+
+**Hecho**
+- Cerré el feed principal en la rama feature/podio-portada: añadí a la portada el podio del último Gran Premio y el top 5 del campeonato de pilotos (PR #5).
+- Hice la sección de pilotos en la rama feature/pilotos: un listado con una tarjeta por piloto, ordenado por la clasificación, y una ficha de cada uno con sus cifras de la temporada, sus datos y sus resultados carrera a carrera (PR #6).
+- Hice la sección de escuderías en la rama feature/escuderias: un listado ordenado por el campeonato de constructores y una página de detalle con sus pilotos y sus puntos en cada carrera (PR #7).
+- Hice la página de clasificación en la rama feature/clasificaciones, con dos pestañas: pilotos y constructores (PR #8).
+- Activé en el menú los enlaces de Pilotos, Escuderías y Clasificación, que antes salían como "próximamente".
+- Probé cada parte en el navegador antes de hacer los commits y marqué cada módulo como hecho en el README.
+
+**Aprendido**
+- Las clasificaciones no se guardan en la base de datos: ClasificacionService las calcula sumando los resultados guardados cada vez que se piden. Así no hay datos repetidos que puedan quedar desactualizados.
+- Spring Data crea consultas a partir del nombre del método. Por ejemplo, findByCarreraTemporada busca los resultados cuya carrera es de una temporada concreta, sin escribir SQL.
+- Los servicios devuelven record con los datos ya preparados para mostrar (textos, colores, puntos sin decimales), así las plantillas no tienen que acceder a la base de datos ni hacer cálculos.
+- Con @PathVariable el controlador recoge una parte de la URL (/pilotos/max_verstappen) y con @RequestParam un parámetro (/clasificacion?tipo=constructores).
+- Si el piloto o la escudería no existe, el controlador lanza ResponseStatusException con NOT_FOUND y el navegador recibe un error 404 en lugar de una página rota.
+- Las pestañas de la clasificación son enlaces normales a la misma página con distinto parámetro, así que funcionan sin JavaScript.
+- El color de cada escudería se pasa a la plantilla con th:style como una variable CSS (--equipo), y el CSS la usa para el borde de las tarjetas y las tablas.
+
+**Decisiones**
+- Los pilotos de una escudería se sacan de los resultados y no del campo escudería del piloto. Así aparecen todos los que corrieron con ella durante la temporada, también los que cambiaron de equipo a mitad de año. Esto resuelve una de las dudas que me quedaron del modelo de datos.
+- En pantallas estrechas se ocultan las columnas menos importantes de las tablas para que la página no se desborde en el móvil.
+- El podio de la portada es el de la última carrera de la temporada importada, y el top 5 es la clasificación final de 2025.
+
+**Problemas y soluciones**
+1. No aparecía el botón "Compare & pull request" en GitHub después de subir la rama feature/podio-portada.
+   Causa: ese aviso solo sale durante un rato después del push y en la página principal del repositorio.
+   Solución: crear el Pull Request a mano desde la pestaña Pull requests > New pull request, con base main y compare feature/podio-portada.
+   
+2. Extraer un zip sin quitar su nombre del destino crea una carpeta intermedia y los archivos no se fusionan con src.
+
+3. Empezar una parte sin haber hecho git pull en main deja fuera los cambios de la parte anterior y da conflictos.
+
+**Dudas pendientes**
+- Las nacionalidades salen en inglés ("British", "Dutch") porque así llegan de la API. Queda pendiente traducirlas.
+- Cada página de pilotos y escuderías recalcula la clasificación entera. Con una temporada es rápido, pero con muchas habría que guardarla o cachearla.
