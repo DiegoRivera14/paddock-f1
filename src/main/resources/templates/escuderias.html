@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Escuderías · Paddock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" href="../static/css/estilos.css">
+</head>
+<body>
+
+<div th:replace="~{fragmentos :: cabecera('escuderias')}"></div>
+
+<main class="contenedor">
+
+    <section class="pilotos" aria-labelledby="titulo-escuderias">
+        <h1 class="seccion__titulo seccion__titulo--pagina" id="titulo-escuderias">Escuderías</h1>
+        <p class="seccion__nota">Ordenadas según el campeonato de constructores; el número grande es su posición. Pulsa en una para ver su detalle.</p>
+
+        <p class="vacio vacio--noticias" th:if="${escuderias.isEmpty()}">Todavía no hay escuderías guardadas. Arranca la aplicación con conexión a internet para importar la temporada.</p>
+
+        <ul class="pilotos__lista escuderias__lista" th:unless="${escuderias.isEmpty()}">
+            <li th:each="e : ${escuderias}">
+                <a class="tarjeta" th:href="@{/escuderias/{id}(id=${e.id()})}" href="#"
+                   th:style="|--equipo:${e.color()}|">
+                    <span class="tarjeta__numero" th:text="${e.posicion()}">1</span>
+                    <span class="tarjeta__nombre">
+                        <span class="tarjeta__nombre-pila" th:text="${e.nacionalidad()}">British</span>
+                        <span class="tarjeta__apellido" th:text="${e.nombre()}">McLaren</span>
+                    </span>
+                    <span class="tarjeta__equipo"
+                          th:text="${e.pilotos().isEmpty() ? 'Sin resultados esta temporada' : #strings.listJoin(e.pilotos(), ' · ')}">Lando Norris · Oscar Piastri</span>
+                    <span class="tarjeta__puntos" th:text="|${e.puntos()} puntos|">833 puntos</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+</main>
+
+<div th:replace="~{fragmentos :: pie}"></div>
+
+</body>
+</html>
