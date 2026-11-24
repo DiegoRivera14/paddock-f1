@@ -63,6 +63,52 @@
         </div>
     </section>
 
+    <!-- Podio del último Gran Premio -->
+    <section class="podio" th:if="${podio != null}" aria-labelledby="titulo-podio">
+        <h2 class="seccion__titulo" id="titulo-podio">Podio del último Gran Premio</h2>
+        <p class="seccion__nota">
+            <span th:text="${podio.carrera()}">Abu Dhabi Grand Prix</span> ·
+            <span th:text="${podio.circuito()}">Yas Marina Circuit</span> ·
+            <span th:text="${podio.fecha()}">7 de diciembre de 2025</span>
+        </p>
+        <ol class="podio__lista">
+            <li class="podio__puesto" th:each="p : ${podio.puestos()}" th:style="|--equipo:${p.color()}|">
+                <span class="podio__pos" th:text="${p.posicion()}">1</span>
+                <span class="podio__piloto" th:text="${p.piloto()}">Max Verstappen</span>
+                <span class="podio__equipo" th:text="${p.escuderia()}">Red Bull</span>
+                <span class="podio__datos" th:text="|Salida: ${p.salida()} · ${p.puntos()} puntos|">Salida: 1º · 25 puntos</span>
+            </li>
+        </ol>
+    </section>
+
+    <!-- Los cinco primeros del campeonato -->
+    <section class="top5" th:if="${!top5.isEmpty()}" aria-labelledby="titulo-top5">
+        <h2 class="seccion__titulo" id="titulo-top5">Top 5 del campeonato</h2>
+        <p class="seccion__nota">Clasificación de pilotos de la temporada <span th:text="${temporada}">2025</span>.</p>
+        <table class="tabla">
+            <caption class="solo-lectores">Los cinco primeros pilotos del campeonato</caption>
+            <thead>
+            <tr>
+                <th scope="col">Pos.</th>
+                <th scope="col">Piloto</th>
+                <th scope="col" class="tabla__num"><abbr title="Victorias">Vict.</abbr></th>
+                <th scope="col" class="tabla__num">Puntos</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="f : ${top5}" th:style="|--equipo:${f.color()}|">
+                <td class="tabla__pos" th:text="${f.posicion()}">1</td>
+                <td>
+                    <span class="tabla__principal" th:text="${f.nombre()}">Lando Norris</span>
+                    <span class="tabla__secundario" th:text="${f.escuderia()}">McLaren</span>
+                </td>
+                <td class="tabla__num" th:text="${f.victorias()}">7</td>
+                <td class="tabla__num tabla__destacado" th:text="${f.puntosTexto()}">423</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
     <!-- Noticias -->
     <section class="noticias" aria-labelledby="titulo-noticias">
         <h2 class="seccion__titulo" id="titulo-noticias">Noticias</h2>
