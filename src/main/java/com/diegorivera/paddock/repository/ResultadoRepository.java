@@ -12,4 +12,7 @@ public interface ResultadoRepository extends JpaRepository<Resultado, Long> {
 
     // Todos los resultados de un piloto
     List<Resultado> findByPilotoId(String pilotoId);
+
+    // Todos los resultados de una temporada (para calcular las clasificaciones)
+    List<Resultado> findByCarreraTemporada(int temporada);
 }
