@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="|${piloto.nombre()} ${piloto.apellido()} · Paddock|">Piloto · Paddock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" href="../static/css/estilos.css">
+</head>
+<body>
+
+<div th:replace="~{fragmentos :: cabecera('pilotos')}"></div>
+
+<main class="contenedor">
+
+    <a class="volver" th:href="@{/pilotos}" href="/pilotos">← Todos los pilotos</a>
+
+    <!-- Cabecera de la ficha: número, nombre y escudería -->
+    <section class="ficha" th:style="|--equipo:${piloto.color()}|" aria-labelledby="titulo-piloto">
+        <div class="ficha__numero" th:text="${piloto.numero()}">1</div>
+        <div class="ficha__texto">
+            <p class="ficha__nombre-pila" th:text="${piloto.nombre()}">Max</p>
+            <h1 class="ficha__apellido" id="titulo-piloto" th:text="${piloto.apellido()}">Verstappen</h1>
+            <p class="ficha__equipo" th:text="${piloto.escuderia()}">Red Bull</p>
+        </div>
+    </section>
+
+    <!-- Cifras de la temporada -->
+    <section class="cifras" aria-label="Cifras de la temporada">
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${piloto.posicionCampeonato()}">2º</span>
+            <span class="cifra__etiqueta">Campeonato</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${piloto.puntos()}">421</span>
+            <span class="cifra__etiqueta">Puntos</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${piloto.victorias()}">8</span>
+            <span class="cifra__etiqueta">Victorias</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${piloto.podios()}">15</span>
+            <span class="cifra__etiqueta">Podios</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${piloto.poles()}">8</span>
+            <span class="cifra__etiqueta">Poles</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${piloto.carreras()}">24</span>
+            <span class="cifra__etiqueta">Carreras</span>
+        </div>
+    </section>
+
+    <!-- Datos personales -->
+    <section class="datos" aria-labelledby="titulo-datos">
+        <h2 class="seccion__titulo" id="titulo-datos">Datos</h2>
+        <dl class="datos__lista">
+            <div class="datos__fila">
+                <dt>Nacionalidad</dt>
+                <dd th:text="${piloto.nacionalidad()}">Dutch</dd>
+            </div>
+            <div class="datos__fila">
+                <dt>Fecha de nacimiento</dt>
+                <dd th:text="${piloto.nacimiento()}">30 de septiembre de 1997</dd>
+            </div>
+            <div class="datos__fila">
+                <dt>Código</dt>
+                <dd th:text="${piloto.codigo()}">VER</dd>
+            </div>
+        </dl>
+    </section>
+
+    <!-- Resultados carrera a carrera -->
+    <section class="resultados" aria-labelledby="titulo-resultados">
+        <h2 class="seccion__titulo" id="titulo-resultados">Resultados de la temporada</h2>
+        <p class="vacio vacio--noticias" th:if="${piloto.resultados().isEmpty()}">Este piloto no tiene resultados guardados.</p>
+        <div class="tabla__contenedor" th:unless="${piloto.resultados().isEmpty()}">
+            <table class="tabla">
+                <caption class="solo-lectores">Resultados del piloto en cada Gran Premio</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Ronda</th>
+                    <th scope="col">Gran Premio</th>
+                    <th scope="col" class="tabla__num">Salida</th>
+                    <th scope="col" class="tabla__num">Llegada</th>
+                    <th scope="col" class="tabla__num">Puntos</th>
+                    <th scope="col" class="tabla__oculta">Estado</th>
+                    <th scope="col" class="tabla__oculta tabla__num">Mejor vuelta</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${piloto.resultados()}" th:style="|--equipo:${piloto.color()}|">
+                    <td class="tabla__pos" th:text="${r.ronda()}">1</td>
+                    <td th:text="${r.carrera()}">Australian Grand Prix</td>
+                    <td class="tabla__num" th:text="${r.salida()}">3</td>
+                    <td class="tabla__num" th:text="${r.llegada()}">2</td>
+                    <td class="tabla__num tabla__destacado" th:text="${r.puntos()}">18</td>
+                    <td class="tabla__oculta" th:text="${r.estado()}">Finalizó</td>
+                    <td class="tabla__oculta tabla__num" th:text="${r.mejorVuelta()}">1:22.167</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<div th:replace="~{fragmentos :: pie}"></div>
+
+</body>
+</html>

@@ -491,6 +491,206 @@ a.menu__enlace:hover {
 }
 
 /* --------------------------------------------------------------------------
+   Pilotos: listado de tarjetas y ficha individual
+   -------------------------------------------------------------------------- */
+
+.pilotos {
+    padding: clamp(2rem, 6vw, 3.5rem) 0 clamp(2.5rem, 6vw, 4rem);
+}
+
+.seccion__titulo--pagina {
+    font-size: clamp(2.5rem, 7vw, 4rem);
+}
+
+.pilotos__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.tarjeta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1rem;
+    align-items: center;
+    height: 100%;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    border-top: 6px solid var(--equipo, var(--tinta));
+    color: inherit;
+    text-decoration: none;
+}
+
+.tarjeta:hover {
+    background: var(--blanco);
+    outline: 2px solid var(--tinta);
+}
+
+.tarjeta__numero {
+    grid-row: 1 / span 3;
+    min-width: 3.25rem;
+    font-family: var(--fuente-titulo);
+    font-size: 3.25rem;
+    font-weight: 900;
+    line-height: 0.9;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.tarjeta__nombre {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.tarjeta__nombre-pila {
+    color: var(--pizarra);
+    font-size: 0.9rem;
+}
+
+.tarjeta__apellido {
+    font-family: var(--fuente-titulo);
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.tarjeta__equipo {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.tarjeta__puntos {
+    color: var(--pizarra);
+    font-size: 0.875rem;
+}
+
+.volver {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-weight: 600;
+}
+
+.ficha {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    margin-top: 1rem;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    background: var(--tinta);
+    border-left: 12px solid var(--equipo, var(--amarillo));
+    color: var(--blanco);
+}
+
+.ficha__numero {
+    font-family: var(--fuente-titulo);
+    font-size: clamp(5rem, 16vw, 9rem);
+    font-weight: 900;
+    line-height: 0.85;
+    font-variant-numeric: tabular-nums;
+}
+
+.ficha__nombre-pila {
+    color: #C9D0D6;
+    font-size: 1.25rem;
+}
+
+.ficha__apellido {
+    font-family: var(--fuente-titulo);
+    font-size: clamp(2.75rem, 9vw, 5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.ficha__equipo {
+    margin-top: 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.cifras {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    gap: 1px;
+    margin-top: 1.5rem;
+    background: var(--linea);
+    border: 1px solid var(--linea);
+}
+
+.cifra {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: var(--panel);
+}
+
+.cifra__valor {
+    font-family: var(--fuente-titulo);
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.cifra__etiqueta {
+    color: var(--pizarra);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.datos,
+.resultados {
+    padding-top: clamp(2rem, 5vw, 3rem);
+}
+
+.resultados {
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.datos__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 0;
+}
+
+.datos__fila {
+    padding-top: 0.5rem;
+    border-top: 3px solid var(--tinta);
+}
+
+.datos__fila dt {
+    color: var(--pizarra);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.datos__fila dd {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.tabla__contenedor {
+    overflow-x: auto;
+}
+
+/* En pantallas estrechas se ocultan las columnas menos importantes */
+@media (max-width: 39.99rem) {
+    .tabla__oculta {
+        display: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
    Noticias: una principal grande y el resto en lista
    -------------------------------------------------------------------------- */
 
