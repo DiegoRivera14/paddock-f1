@@ -707,6 +707,47 @@ a.menu__enlace:hover {
 }
 
 /* --------------------------------------------------------------------------
+   Clasificación: pestañas hechas con enlaces
+   -------------------------------------------------------------------------- */
+
+.pestanas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.pestana {
+    padding: 0.5rem 1.25rem;
+    border: 2px solid var(--tinta);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.pestana:hover {
+    background: var(--blanco);
+}
+
+.pestana--activa,
+.pestana--activa:hover {
+    background: var(--tinta);
+    color: var(--blanco);
+}
+
+/* La tabla va pegada a las pestañas */
+.tabla--pegada {
+    margin-top: 1rem;
+}
+
+.tabla__enlace {
+    text-decoration: none;
+}
+
+.tabla__enlace:hover {
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
    Noticias: una principal grande y el resto en lista
    -------------------------------------------------------------------------- */
 

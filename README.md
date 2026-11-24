@@ -22,7 +22,7 @@ En desarrollo. Entrega parcial: 15 de noviembre. Entrega final: 6 de diciembre.
 | Feed principal | `feature/feed-principal` | Hecho |
 | Pilotos | `feature/pilotos` | Hecho |
 | Escuderías | `feature/escuderias` | Hecho |
-| Clasificaciones | `feature/clasificaciones` | Pendiente |
+| Clasificaciones | `feature/clasificaciones` | Hecho |
 | Calendario y circuitos | `feature/circuitos` | Pendiente |
 | Circuito interactivo (simulación) | `feature/circuito-interactivo` | Extra |
 | Login y favoritos | `feature/login-favoritos` | Extra |
