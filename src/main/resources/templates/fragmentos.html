@@ -14,7 +14,8 @@
                th:href="@{/pilotos}" href="/pilotos">Pilotos</a>
             <a class="menu__enlace" th:classappend="${activa == 'escuderias'} ? 'menu__enlace--activo'"
                th:href="@{/escuderias}" href="/escuderias">Escuderías</a>
-            <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Clasificación</span>
+            <a class="menu__enlace" th:classappend="${activa == 'clasificacion'} ? 'menu__enlace--activo'"
+               th:href="@{/clasificacion}" href="/clasificacion">Clasificación</a>
             <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Circuitos</span>
         </nav>
     </div>
