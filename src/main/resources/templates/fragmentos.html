@@ -12,7 +12,8 @@
             <!-- Estas secciones se activarán cuando existan sus páginas -->
             <a class="menu__enlace" th:classappend="${activa == 'pilotos'} ? 'menu__enlace--activo'"
                th:href="@{/pilotos}" href="/pilotos">Pilotos</a>
-            <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Escuderías</span>
+            <a class="menu__enlace" th:classappend="${activa == 'escuderias'} ? 'menu__enlace--activo'"
+               th:href="@{/escuderias}" href="/escuderias">Escuderías</a>
             <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Clasificación</span>
             <span class="menu__enlace menu__enlace--pronto" title="Próximamente">Circuitos</span>
         </nav>
