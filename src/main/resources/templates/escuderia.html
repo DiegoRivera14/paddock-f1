@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="|${escuderia.nombre()} · Paddock|">Escudería · Paddock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" href="../static/css/estilos.css">
+</head>
+<body>
+
+<div th:replace="~{fragmentos :: cabecera('escuderias')}"></div>
+
+<main class="contenedor">
+
+    <a class="volver" th:href="@{/escuderias}" href="/escuderias">← Todas las escuderías</a>
+
+    <!-- Cabecera: posición en el campeonato, nombre y nacionalidad -->
+    <section class="ficha" th:style="|--equipo:${escuderia.color()}|" aria-labelledby="titulo-escuderia">
+        <div class="ficha__numero" th:text="${escuderia.posicion()}">1º</div>
+        <div class="ficha__texto">
+            <p class="ficha__nombre-pila" th:text="${escuderia.nacionalidad()}">British</p>
+            <h1 class="ficha__apellido" id="titulo-escuderia" th:text="${escuderia.nombre()}">McLaren</h1>
+            <p class="ficha__equipo">Campeonato de constructores</p>
+        </div>
+    </section>
+
+    <!-- Cifras de la temporada -->
+    <section class="cifras" aria-label="Cifras de la temporada">
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${escuderia.puntos()}">833</span>
+            <span class="cifra__etiqueta">Puntos</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${escuderia.victorias()}">14</span>
+            <span class="cifra__etiqueta">Victorias</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${escuderia.podios()}">34</span>
+            <span class="cifra__etiqueta">Podios</span>
+        </div>
+        <div class="cifra">
+            <span class="cifra__valor" th:text="${escuderia.carreras().size()}">24</span>
+            <span class="cifra__etiqueta">Carreras</span>
+        </div>
+    </section>
+
+    <!-- Pilotos que han corrido con la escudería -->
+    <section class="datos" aria-labelledby="titulo-pilotos-escuderia">
+        <h2 class="seccion__titulo" id="titulo-pilotos-escuderia">Pilotos</h2>
+        <p class="seccion__nota">Todos los que han corrido con la escudería esta temporada y los puntos que sumaron para ella.</p>
+        <p class="vacio vacio--noticias" th:if="${escuderia.pilotos().isEmpty()}">Esta escudería no tiene resultados guardados.</p>
+        <ul class="pilotos__lista" th:unless="${escuderia.pilotos().isEmpty()}">
+            <li th:each="p : ${escuderia.pilotos()}">
+                <a class="tarjeta" th:href="@{/pilotos/{id}(id=${p.id()})}" href="#"
+                   th:style="|--equipo:${escuderia.color()}|">
+                    <span class="tarjeta__numero" th:text="${p.numero()}">4</span>
+                    <span class="tarjeta__nombre">
+                        <span class="tarjeta__apellido" th:text="${p.nombre()}">Lando Norris</span>
+                    </span>
+                    <span class="tarjeta__puntos" th:text="|${p.puntos()} puntos con la escudería|">423 puntos con la escudería</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Carrera a carrera -->
+    <section class="resultados" aria-labelledby="titulo-carreras-escuderia">
+        <h2 class="seccion__titulo" id="titulo-carreras-escuderia">Carrera a carrera</h2>
+        <div class="tabla__contenedor" th:unless="${escuderia.carreras().isEmpty()}">
+            <table class="tabla">
+                <caption class="solo-lectores">Puntos y mejor posición de la escudería en cada Gran Premio</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Ronda</th>
+                    <th scope="col">Gran Premio</th>
+                    <th scope="col" class="tabla__num">Mejor posición</th>
+                    <th scope="col" class="tabla__num">Puntos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${escuderia.carreras()}" th:style="|--equipo:${escuderia.color()}|">
+                    <td class="tabla__pos" th:text="${c.ronda()}">1</td>
+                    <td th:text="${c.carrera()}">Australian Grand Prix</td>
+                    <td class="tabla__num" th:text="${c.mejorPosicion()}">1</td>
+                    <td class="tabla__num tabla__destacado" th:text="${c.puntos()}">27</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<div th:replace="~{fragmentos :: pie}"></div>
+
+</body>
+</html>
