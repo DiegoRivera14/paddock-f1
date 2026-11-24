@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clasificación · Paddock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" href="../static/css/estilos.css">
+</head>
+<body>
+
+<div th:replace="~{fragmentos :: cabecera('clasificacion')}"></div>
+
+<main class="contenedor">
+
+    <section class="pilotos" aria-labelledby="titulo-clasificacion">
+        <h1 class="seccion__titulo seccion__titulo--pagina" id="titulo-clasificacion">Clasificación</h1>
+        <p class="seccion__nota">Temporada <span th:text="${temporada}">2025</span>. Puntos sumados en todas las carreras guardadas.</p>
+
+        <!-- Pestañas: son enlaces normales, sin JavaScript -->
+        <nav class="pestanas" aria-label="Tipo de clasificación">
+            <a class="pestana" th:classappend="${tipo == 'pilotos'} ? 'pestana--activa'"
+               th:href="@{/clasificacion}" href="#">Pilotos</a>
+            <a class="pestana" th:classappend="${tipo == 'constructores'} ? 'pestana--activa'"
+               th:href="@{/clasificacion(tipo='constructores')}" href="#">Constructores</a>
+        </nav>
+
+        <!-- Clasificación de pilotos -->
+        <th:block th:if="${tipo == 'pilotos'}">
+            <p class="vacio vacio--noticias" th:if="${pilotos.isEmpty()}">Todavía no hay resultados guardados.</p>
+            <div class="tabla__contenedor" th:unless="${pilotos.isEmpty()}">
+                <table class="tabla tabla--pegada">
+                    <caption class="solo-lectores">Clasificación del campeonato de pilotos</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Pos.</th>
+                        <th scope="col">Piloto</th>
+                        <th scope="col" class="tabla__num"><abbr title="Victorias">Vict.</abbr></th>
+                        <th scope="col" class="tabla__num tabla__oculta">Podios</th>
+                        <th scope="col" class="tabla__num">Puntos</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="f : ${pilotos}" th:style="|--equipo:${f.color()}|">
+                        <td class="tabla__pos" th:text="${f.posicion()}">1</td>
+                        <td>
+                            <a class="tabla__principal tabla__enlace" th:href="@{/pilotos/{id}(id=${f.pilotoId()})}"
+                               href="#" th:text="${f.nombre()}">Lando Norris</a>
+                            <span class="tabla__secundario" th:text="${f.escuderia()}">McLaren</span>
+                        </td>
+                        <td class="tabla__num" th:text="${f.victorias()}">7</td>
+                        <td class="tabla__num tabla__oculta" th:text="${f.podios()}">18</td>
+                        <td class="tabla__num tabla__destacado" th:text="${f.puntosTexto()}">423</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </th:block>
+
+        <!-- Clasificación de constructores -->
+        <th:block th:if="${tipo == 'constructores'}">
+            <p class="vacio vacio--noticias" th:if="${escuderias.isEmpty()}">Todavía no hay resultados guardados.</p>
+            <div class="tabla__contenedor" th:unless="${escuderias.isEmpty()}">
+                <table class="tabla tabla--pegada">
+                    <caption class="solo-lectores">Clasificación del campeonato de constructores</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Pos.</th>
+                        <th scope="col">Escudería</th>
+                        <th scope="col" class="tabla__num"><abbr title="Victorias">Vict.</abbr></th>
+                        <th scope="col" class="tabla__num tabla__oculta">Podios</th>
+                        <th scope="col" class="tabla__num">Puntos</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="f : ${escuderias}" th:style="|--equipo:${f.color()}|">
+                        <td class="tabla__pos" th:text="${f.posicion()}">1</td>
+                        <td>
+                            <a class="tabla__principal tabla__enlace" th:href="@{/escuderias/{id}(id=${f.escuderiaId()})}"
+                               href="#" th:text="${f.nombre()}">McLaren</a>
+                        </td>
+                        <td class="tabla__num" th:text="${f.victorias()}">14</td>
+                        <td class="tabla__num tabla__oculta" th:text="${f.podios()}">34</td>
+                        <td class="tabla__num tabla__destacado" th:text="${f.puntosTexto()}">833</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </th:block>
+    </section>
+
+</main>
+
+<div th:replace="~{fragmentos :: pie}"></div>
+
+</body>
+</html>
