@@ -20,7 +20,7 @@ En desarrollo. Entrega parcial: 15 de noviembre. Entrega final: 6 de diciembre.
 | Modelo de datos | `feature/modelo-datos` | Hecho |
 | Importador de datos de F1 | `feature/importador-f1` | Hecho |
 | Feed principal | `feature/feed-principal` | Hecho |
-| Pilotos | `feature/pilotos` | Pendiente |
+| Pilotos | `feature/pilotos` | Hecho |
 | Escuderías | `feature/escuderias` | Pendiente |
 | Clasificaciones | `feature/clasificaciones` | Pendiente |
 | Calendario y circuitos | `feature/circuitos` | Pendiente |
