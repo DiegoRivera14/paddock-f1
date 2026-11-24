@@ -691,6 +691,22 @@ a.menu__enlace:hover {
 }
 
 /* --------------------------------------------------------------------------
+   Escuderías: reutilizan las tarjetas y la ficha de pilotos
+   -------------------------------------------------------------------------- */
+
+.escuderias__lista {
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+}
+
+.escuderias__lista .tarjeta__numero {
+    color: var(--pizarra);
+}
+
+.datos .pilotos__lista {
+    margin-top: 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
    Noticias: una principal grande y el resto en lista
    -------------------------------------------------------------------------- */
 
