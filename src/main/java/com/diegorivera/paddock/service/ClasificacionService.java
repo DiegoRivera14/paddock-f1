@@ -40,6 +40,15 @@ public class ClasificacionService {
         }
     }
 
+    /** Una fila de la clasificación de constructores (escuderías). */
+    public record FilaEscuderia(int posicion, String escuderiaId, String nombre, String color,
+                                double puntos, int victorias, int podios) {
+
+        public String puntosTexto() {
+            return formatearPuntos(puntos);
+        }
+    }
+
     /** Uno de los tres primeros puestos de una carrera. */
     public record PuestoPodio(int posicion, String piloto, String escuderia, String color,
                               String salida, String puntos) {
@@ -60,6 +69,18 @@ public class ClasificacionService {
 
         private Acumulado(Piloto piloto) {
             this.piloto = piloto;
+        }
+    }
+
+    /** Datos que se van sumando de cada escudería. */
+    private static class AcumuladoEscuderia {
+        private final Escuderia escuderia;
+        private double puntos;
+        private int victorias;
+        private int podios;
+
+        private AcumuladoEscuderia(Escuderia escuderia) {
+            this.escuderia = escuderia;
         }
     }
 
@@ -119,6 +140,48 @@ public class ClasificacionService {
             filas.add(new FilaPiloto(posicion++, a.piloto.getId(), a.piloto.getNombreCompleto(),
                     nombreEscuderia(a.escuderia), colorEscuderia(a.escuderia),
                     a.puntos, a.victorias, a.podios));
+        }
+        return filas;
+    }
+
+    /** Clasificación de constructores: suma de los puntos de todos los pilotos de cada escudería. */
+    @Transactional(readOnly = true)
+    public List<FilaEscuderia> clasificacionEscuderias() {
+        Map<String, AcumuladoEscuderia> porEscuderia = new LinkedHashMap<>();
+        for (Resultado r : resultadoRepository.findByCarreraTemporada(temporada)) {
+            Escuderia e = r.getEscuderia();
+            if (e == null) {
+                continue;
+            }
+            AcumuladoEscuderia a = porEscuderia.computeIfAbsent(e.getId(), id -> new AcumuladoEscuderia(e));
+            a.puntos += r.getPuntos();
+            Integer llegada = r.getPosicionFinal();
+            if (llegada != null && llegada == 1) {
+                a.victorias++;
+            }
+            if (llegada != null && llegada <= 3) {
+                a.podios++;
+            }
+        }
+
+        List<AcumuladoEscuderia> ordenadas = new ArrayList<>(porEscuderia.values());
+        ordenadas.sort((x, y) -> {
+            int c = Double.compare(y.puntos, x.puntos);
+            if (c != 0) {
+                return c;
+            }
+            c = Integer.compare(y.victorias, x.victorias);
+            if (c != 0) {
+                return c;
+            }
+            return x.escuderia.getNombre().compareTo(y.escuderia.getNombre());
+        });
+
+        List<FilaEscuderia> filas = new ArrayList<>();
+        int posicion = 1;
+        for (AcumuladoEscuderia a : ordenadas) {
+            filas.add(new FilaEscuderia(posicion++, a.escuderia.getId(), a.escuderia.getNombre(),
+                    colorEscuderia(a.escuderia), a.puntos, a.victorias, a.podios));
         }
         return filas;
     }
