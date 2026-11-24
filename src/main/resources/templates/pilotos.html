@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pilotos · Paddock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" href="../static/css/estilos.css">
+</head>
+<body>
+
+<div th:replace="~{fragmentos :: cabecera('pilotos')}"></div>
+
+<main class="contenedor">
+
+    <section class="pilotos" aria-labelledby="titulo-pilotos">
+        <h1 class="seccion__titulo seccion__titulo--pagina" id="titulo-pilotos">Pilotos</h1>
+        <p class="seccion__nota">Ordenados según la clasificación del campeonato. Pulsa en uno para ver su ficha.</p>
+
+        <p class="vacio vacio--noticias" th:if="${pilotos.isEmpty()}">Todavía no hay pilotos guardados. Arranca la aplicación con conexión a internet para importar la temporada.</p>
+
+        <ul class="pilotos__lista" th:unless="${pilotos.isEmpty()}">
+            <li th:each="p : ${pilotos}">
+                <a class="tarjeta" th:href="@{/pilotos/{id}(id=${p.id()})}" href="#"
+                   th:style="|--equipo:${p.color()}|">
+                    <span class="tarjeta__numero" th:text="${p.numero()}">1</span>
+                    <span class="tarjeta__nombre">
+                        <span class="tarjeta__nombre-pila" th:text="${p.nombre()}">Max</span>
+                        <span class="tarjeta__apellido" th:text="${p.apellido()}">Verstappen</span>
+                    </span>
+                    <span class="tarjeta__equipo" th:text="${p.escuderia()}">Red Bull</span>
+                    <span class="tarjeta__puntos" th:text="|${p.puntos()} puntos|">421 puntos</span>
+                </a>
+            </li>
+            <!-- Tarjeta de ejemplo para ver la maqueta sin ejecutar la aplicación -->
+            <li th:remove="all">
+                <a class="tarjeta" href="#" style="--equipo:#FF8000">
+                    <span class="tarjeta__numero">4</span>
+                    <span class="tarjeta__nombre">
+                        <span class="tarjeta__nombre-pila">Lando</span>
+                        <span class="tarjeta__apellido">Norris</span>
+                    </span>
+                    <span class="tarjeta__equipo">McLaren</span>
+                    <span class="tarjeta__puntos">423 puntos</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+</main>
+
+<div th:replace="~{fragmentos :: pie}"></div>
+
+</body>
+</html>
